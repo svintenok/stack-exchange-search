@@ -10,4 +10,4 @@ Execute this command in the repository's root directory to run this project:
 ./gradlew bootRun
 ```
  
-And navigate to [http://localhost:8080/](http://localhost:8080/) to see the search page.  
+And navigate to [http://localhost:8080/search](http://localhost:8080/search) to see the search page.  
