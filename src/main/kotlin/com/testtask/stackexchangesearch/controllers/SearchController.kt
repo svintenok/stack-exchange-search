@@ -25,15 +25,20 @@ class SearchController {
         if (searchString != null && searchString != "") {
             model["searchString"] = searchString
             val searchResult = questionService.getQuestions(searchString, pageSize, 1)
-            model["questions"] = searchResult!!
+            if (searchResult != null) {
+                model["questions"] = searchResult
+            }
+            else{
+                model["error"] = "true"
+            }
         }
         return "search_page"
     }
 
     @ResponseBody
     @GetMapping("/search-json")
-    fun search(@RequestParam(value = "searchString") searchString: String, @RequestParam page: Int): List<Question> {
-        return questionService.getQuestions(searchString, pageSize, page)!!
+    fun search(@RequestParam(value = "searchString") searchString: String, @RequestParam page: Int): List<Question>? {
+        return questionService.getQuestions(searchString, pageSize, page)
     }
 
 }

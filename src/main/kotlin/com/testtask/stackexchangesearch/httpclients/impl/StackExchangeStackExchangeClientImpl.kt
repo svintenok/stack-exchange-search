@@ -4,6 +4,7 @@ import com.testtask.stackexchangesearch.httpclients.StackExchangeClient
 import com.testtask.stackexchangesearch.models.SearchResultDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestTemplate
 
 
@@ -20,10 +21,16 @@ class StackExchangeStackExchangeClientImpl : StackExchangeClient {
     lateinit var restTemplate: RestTemplate
 
     override fun inTitleSearch(searchString: String, pageSize: Int, page: Int): SearchResultDto? {
-        val searchResult = restTemplate.getForObject(
-                "$baseSearchURL&$pageSizeParamString=$pageSize&" +
-                        "$titleSearchParamString=$searchString&$pageNumParamString=$page",
-                SearchResultDto::class.java)
+        var searchResult: SearchResultDto? = null
+        try {
+            searchResult = restTemplate.getForObject(
+                    "$baseSearchURL&$pageSizeParamString=$pageSize&" +
+                            "$titleSearchParamString=$searchString&$pageNumParamString=$page",
+                    SearchResultDto::class.java)
+        }
+        catch (e: HttpClientErrorException){
+        }
+
         return searchResult
     }
 }
